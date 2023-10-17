@@ -49,7 +49,7 @@
               class="mb-4 pl-2 ml-4 lg:mb-0 lg:pl-0 lg:pr-1"
               data-te-nav-item-ref>
              
-              <button @click="addUser" class="bg-white-700 hover: bg-gray-100 rounded py-2 px-4 text-black-600 font-semibold  ">Add New data</button>
+       
             </li>
             <!-- Pricing link -->
           </ul>

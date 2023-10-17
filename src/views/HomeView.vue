@@ -16,28 +16,32 @@
       <DatePicker  v-if="isCalender" v-model="date" mode="dateTime"/>
     </div>
     <TodoList @todoList="todoList"/>
+    <StatusList :todos="todos"/>
 </div>
+
 </template>
 
 <script>
 
 import { DatePicker } from 'v-calendar';
 import {ref,reactive, onUpdated,watchEffect,inject} from 'vue'
-
+import StatusList from './StatusList.vue'
 import 'v-calendar/style.css';
 import NavVue from'./NavVue.vue'
 import TodoList from "./TodoList.vue"
+
 export default {
   name: 'HomeView',
   components: {
      NavVue ,
     DatePicker,
-    TodoList
+    TodoList,
+    StatusList
   },
   setup(){
     const date=ref(new Date())
-    const task=ref(null)
-    const todos=ref({})
+    const task=ref()
+    const todos=ref([])
     const isCalender=ref(false)
     const calender=()=>{
       isCalender.value=!isCalender.value      
@@ -68,11 +72,13 @@ export default {
           duedate:new Date(date.value).toLocaleDateString(),
           isCompleted:false})
        isCalender.value=!isCalender.value  
+       task.value=''
+       date.value=new Date()
       }catch(err){
          console.log(err,'error occured')
       }
     }
-    return {date,task,calender,isCalender,addTodo ,todoList}
+    return {date,task,calender,isCalender,addTodo ,todoList,todos}
   }
 
 }

@@ -1,93 +1,33 @@
 {
   "todos": [
     {
-      "id": 18,
-      "todo": "dummy",
-      "duedate": "01/10/2023",
-      "isCompleted": true
-    },
-    {
-      "id": 19,
-      "todo": "bbbb",
+      "id": 1,
+      "todo": "do dishes",
       "duedate": "08/10/2023",
       "isCompleted": true
     },
     {
-      "id": 20,
-      "todo": "vvv",
-      "duedate": "01/10/2023",
-      "isCompleted": true
-    },
-    {
-      "id": 21,
-      "todo": "bbbbbbbbbbbbbbbbbbb",
-      "duedate": "13/10/2023",
-      "isCompleted": true
-    },
-    {
-      "id": 22,
-      "todo": "hhhhh",
-      "duedate": "07/10/2023",
-      "isCompleted": true
-    },
-    {
-      "id": 23,
-      "todo": "eat",
-      "duedate": "22/10/2023",
-      "isCompleted": true
-    },
-    {
-      "id": 24,
-      "todo": "nnnn",
-      "duedate": "01/10/2023",
-      "isCompleted": true
-    },
-    {
-      "id": 25,
-      "todo": "washing clothes",
+      "id": 4,
+      "todo": "Wash clothes",
       "duedate": "29/10/2023",
       "isCompleted": false
     },
     {
-      "id": 26,
-      "todo": "bbbbbbbbbbbbbbbbbbb",
-      "duedate": "13/10/2023",
-      "isCompleted": false
-    },
-    {
-      "id": 27,
-      "todo": "doing dishes",
-      "duedate": "01/10/2023",
-      "isCompleted": false
-    },
-    {
-      "id": 28,
-      "todo": "bbbbbbbbbbbbbbbbbbb",
-      "duedate": "01/10/2023",
-      "isCompleted": false
-    },
-    {
-      "id": 29,
-      "todo": "bbbbbbbbbbbbbbbbbbb",
-      "duedate": "14/10/2023",
-      "isCompleted": false
-    },
-    {
-      "id": 30,
-      "todo": "single",
-      "duedate": "22/10/2023",
-      "isCompleted": false
-    },
-    {
-      "id": 31,
-      "todo": null,
+      "id": 5,
+      "todo": "cook",
       "duedate": "17/10/2023",
       "isCompleted": false
     },
     {
-      "id": 32,
-      "todo": null,
-      "duedate": "17/10/2023",
+      "id": 6,
+      "todo": "Wash clothes",
+      "duedate": "15/10/2023",
+      "isCompleted": false
+    },
+    {
+      "id": 7,
+      "todo": "do dishes",
+      "duedate": "28/10/2023",
       "isCompleted": false
     }
   ]
