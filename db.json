@@ -1,34 +1,10 @@
 {
   "todos": [
     {
-      "id": 1,
-      "todo": "do dishes",
-      "duedate": "08/10/2023",
-      "isCompleted": true
-    },
-    {
-      "id": 4,
-      "todo": "Wash clothes",
-      "duedate": "29/10/2023",
-      "isCompleted": false
-    },
-    {
       "id": 5,
       "todo": "cook",
       "duedate": "17/10/2023",
-      "isCompleted": false
-    },
-    {
-      "id": 6,
-      "todo": "Wash clothes",
-      "duedate": "15/10/2023",
-      "isCompleted": false
-    },
-    {
-      "id": 7,
-      "todo": "do dishes",
-      "duedate": "28/10/2023",
-      "isCompleted": false
+      "isCompleted": true
     }
   ]
 }
