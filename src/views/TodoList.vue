@@ -35,26 +35,6 @@ setup(props,context){
                 duedate:todos.duedate,
                 isCompleted:todos.isCompleted
            })
-         // const res=await fetch(`http://localhost:3000/todos/${todos.id}`,{
-         //    method:'put',
-         //    headers:{
-         //       "content-type":"application/json"
-         //    },
-         //    body:JSON.stringify({
-         //       id:todos.id,
-         //       todo:todos.todo,
-         //       duedate:todos.duedate,
-         //       isCompleted:todos.isCompleted
-         //    })
-         // })
-         // if(res.ok){
-         //    store.commit('checkStatus',{
-         //       id:todos.id,
-         //       todo:todos.todo,
-         //       duedate:todos.duedate,
-         //       isCompleted:todos.isCompleted
-         //    })
-         // }
      }
      const deleteTodo=async(id)=>{
       try{

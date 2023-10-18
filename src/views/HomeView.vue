@@ -42,7 +42,7 @@ import axios from 'axios'
 export default {
   name: 'HomeView',
   components: {
-     NavVue ,
+    NavVue ,
     DatePicker,
     TodoList,
     StatusList
@@ -78,20 +78,16 @@ export default {
             lastid=0
           }
           console.log(lastid,'last id')
-          const res=await fetch('http://localhost:3000/todos',{
-          method:'POST',
-          headers: {
-        'Content-Type':'application/json'
-       },
-       body:JSON.stringify({
+          const res=await axios.post('http://localhost:3000/todos',
+       {
           id:lastid+1,
           todo:task.value.input,
           duedate:new Date(date.value).toLocaleString(),
-          isCompleted:false
-
-       })
-    })
-    if(res.ok){
+          isCompleted:false},{ headers: {
+        'Content-Type':'application/json'
+       }
+      })
+      if(res.statusText==='Created'){
           todos.value.push()
           store.dispatch('insertNewTodo',{ id:lastid+1,
           todo:task.value.input,
@@ -102,7 +98,6 @@ export default {
           date.value=new Date()
           }
         }).catch((err)=>{
-          console.log(err)
           err.inner.forEach((error)=>{
             errors.value={...errors.value,[error.path]:error.message}
           })
