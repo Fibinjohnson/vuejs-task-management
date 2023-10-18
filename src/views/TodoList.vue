@@ -21,7 +21,7 @@
 <script>
 import { ref ,onMounted, onUpdated,watchEffect, computed} from 'vue';
 import {useStore} from 'vuex'
-
+import axios from 'axios'
 export default {
  
 setup(props,context){
@@ -29,18 +29,24 @@ setup(props,context){
      const storeAlltodos=computed(()=> store.state.todos)
 
      const onChecked=async(todos)=>{
-         const res=await fetch(`http://localhost:3000/todos/${todos.id}`,{
-            method:'put',
-            headers:{
-               "content-type":"application/json"
-            },
-            body:JSON.stringify({
-               id:todos.id,
-               todo:todos.todo,
-               duedate:todos.duedate,
-               isCompleted:todos.isCompleted
-            })
-         })
+      const res= await axios.patch(`http://localhost:3000/todos/${todos.id}`,{
+                id:todos.id,
+                todo:todos.todo,
+                duedate:todos.duedate,
+                isCompleted:todos.isCompleted
+           })
+         // const res=await fetch(`http://localhost:3000/todos/${todos.id}`,{
+         //    method:'put',
+         //    headers:{
+         //       "content-type":"application/json"
+         //    },
+         //    body:JSON.stringify({
+         //       id:todos.id,
+         //       todo:todos.todo,
+         //       duedate:todos.duedate,
+         //       isCompleted:todos.isCompleted
+         //    })
+         // })
          // if(res.ok){
          //    store.commit('checkStatus',{
          //       id:todos.id,
@@ -52,23 +58,19 @@ setup(props,context){
      }
      const deleteTodo=async(id)=>{
       try{
-         const res=await fetch(`http://localhost:3000/todos/${id}`,{
-            method:'delete'
-         })
-         if(res.ok){
-               store.commit('deleteTodo',id)
+         const res=await axios.delete(`http://localhost:3000/todos/${id}`)
+         if(res.statusText==='OK'){
+               store.dispatch('deleteTodo',id)
             }
       }catch(error){
          console.log(error,'delete error')
       }
      }
      onMounted( async()=>{
-        const res=await fetch('http://localhost:3000/todos',{
-            method:'get'
-        })
-     if(res.ok){
-        const todos=await res.json();
-        store.commit('getAllTodos',todos)
+        const res=await axios.get('http://localhost:3000/todos')
+     if(res.statusText==="OK"){
+        const todos=await res.data;
+        store.dispatch('getAllTodos',todos)
      }else{
         console.log(res,'err')
      }

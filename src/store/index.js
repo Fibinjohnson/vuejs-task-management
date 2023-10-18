@@ -22,7 +22,15 @@ const  store=createStore({
          }
     },
     actions:{
-        
+        getAllTodos(context,todos){
+           context.commit('getAllTodos',todos)
+        },
+        insertNewTodo(context,todos){
+            context.commit('insertNewTodo',todos)
+        },
+        deleteTodo(context,id){
+            context.commit('deleteTodo',id)
+        }
     }
 })
 export default store

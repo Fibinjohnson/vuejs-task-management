@@ -38,7 +38,7 @@ import 'v-calendar/style.css';
 import NavVue from'./NavVue.vue'
 import TodoList from "./TodoList.vue"
 import {useStore} from 'vuex'
-
+import axios from 'axios'
 export default {
   name: 'HomeView',
   components: {
@@ -93,7 +93,7 @@ export default {
     })
     if(res.ok){
           todos.value.push()
-          store.commit('insertNewTodo',{ id:lastid+1,
+          store.dispatch('insertNewTodo',{ id:lastid+1,
           todo:task.value.input,
           duedate:new Date(date.value).toLocaleString(),
           isCompleted:false})
