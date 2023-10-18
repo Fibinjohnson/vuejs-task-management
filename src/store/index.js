@@ -22,14 +22,14 @@ const  store=createStore({
          }
     },
     actions:{
-        getAllTodos(context,todos){
-           context.commit('getAllTodos',todos)
+        getAllTodos(context,payload){
+           context.commit('getAllTodos',payload)
         },
-        insertNewTodo(context,todos){
-            context.commit('insertNewTodo',todos)
+        insertNewTodo(context,payload){
+            context.commit('insertNewTodo',payload)
         },
-        deleteTodo(context,id){
-            context.commit('deleteTodo',id)
+        deleteTodo(context,payload){
+            context.commit('deleteTodo',payload)
         }
     }
 })

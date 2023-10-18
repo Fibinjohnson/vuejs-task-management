@@ -67,7 +67,7 @@ export default {
     }
   
     const todoList=(data)=>{
-     todos.value=data.value
+     todos.value=data.value 
     }
 
     const addTodo=async()=>{
@@ -88,7 +88,7 @@ export default {
        }
       })
       if(res.statusText==='Created'){
-          todos.value.push()
+        
           store.dispatch('insertNewTodo',{ id:lastid+1,
           todo:task.value.input,
           duedate:new Date(date.value).toLocaleString(),
