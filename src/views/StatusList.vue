@@ -10,28 +10,31 @@
 </template>
 
 <script>
-import { computed, onMounted } from 'vue'
+import { computed } from 'vue'
+import {useStore} from 'vuex'
 export default {
-props:['todos'],
-setup(props){
-
+setup(){
+    const store=useStore()
+    const storeTodos= computed(()=>{
+      return store.state.todos
+    })
     const pending=computed(()=>{
-        if(props.todos!==null){
-            const pendingTodos= props.todos.filter((todo)=>{return todo.isCompleted==false})
+        if(storeTodos.todos!==null){
+            const pendingTodos= storeTodos.value.filter((todo)=>{return todo.isCompleted==false})
         return pendingTodos.length
         }
         return 0
     })
     const completed=computed(()=>{
-        if(props.todos!==null){
-            const pendingTodos= props.todos.filter((todo)=>{return todo.isCompleted==true})
+        if(storeTodos.todos!==null){
+            const pendingTodos= storeTodos.value.filter((todo)=>{return todo.isCompleted==true})
         return pendingTodos.length
         }
         return 0
        
     })
     
-return {pending,completed}
+return {pending,completed,storeTodos}
 }
 }
 </script>

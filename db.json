@@ -2,9 +2,9 @@
   "todos": [
     {
       "id": 1,
-      "todo": "bbbbbbbbbbbbbbbbbbb",
-      "duedate": "08/10/2023, 12:38:54",
-      "isCompleted": false
+      "todo": "Wash clothes",
+      "duedate": "15/10/2023, 15:21:37",
+      "isCompleted": true
     }
   ]
 }

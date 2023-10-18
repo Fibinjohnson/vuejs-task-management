@@ -20,8 +20,8 @@
       <DatePicker  v-if="isCalender" v-model="date" mode="dateTime"/>
     </div>
     <p v-if="errors.input" class="flex justify-center text text-red-700  ">Add a todo</p>
-    <TodoList @todoList="todoList"/>
-    <StatusList :todos="todos"/>
+    <TodoList/>
+    <StatusList/>
 </div>
 
 </template>
@@ -58,7 +58,7 @@ export default {
     })
     const todos=ref([])
     const storeTodos=computed(()=>
-       store.commit.todos
+       store.state.todos
     )
     
     const isCalender=ref(false)
@@ -73,7 +73,7 @@ export default {
     const addTodo=async()=>{
       try{
         todoInputSchema.validate(task.value,{abortEarly:false}).then(async()=>{
-          let lastid=Math.max(...todos.value.map(todo=>todo.id))
+          let lastid=Math.max(...storeTodos.value.map(todo=>todo.id))
           if(lastid==-Infinity){
             lastid=0
           }
@@ -92,16 +92,17 @@ export default {
        })
     })
     if(res.ok){
-          todos.value.push({ id:lastid+1,
+          todos.value.push()
+          store.commit('insertNewTodo',{ id:lastid+1,
           todo:task.value.input,
           duedate:new Date(date.value).toLocaleString(),
           isCompleted:false})
-          console.log(storeTodos,'storeTodosf')
           isCalender.value=!isCalender.value  
           task.value.input=''
           date.value=new Date()
           }
         }).catch((err)=>{
+          console.log(err)
           err.inner.forEach((error)=>{
             errors.value={...errors.value,[error.path]:error.message}
           })
@@ -119,7 +120,7 @@ export default {
 
     }
 
-    return {date,task,calender,isCalender,addTodo ,todoList,todos,validate ,errors}
+    return {date,task,calender,isCalender,addTodo ,todoList,todos,validate ,errors,storeTodos}
   }
 
 }

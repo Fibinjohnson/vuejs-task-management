@@ -9,10 +9,17 @@ const  store=createStore({
 
     },
     mutations:{
-        changeTodos(state,todos){
+        getAllTodos(state,todos){
              state.todos=todos
-             console.log(state.todos,'title store')
-        }
+        },
+         insertNewTodo(state,todos){
+                state.todos.push(todos)
+         },
+         deleteTodo(state,id){
+            state.todos=state.todos.filter((todo)=>{
+                return todo.id!==id
+            })
+         }
     },
     actions:{
         

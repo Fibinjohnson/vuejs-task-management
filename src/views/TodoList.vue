@@ -1,6 +1,6 @@
 <template>
   <div  class="flexflex-col w-4/5 ml-auto mr-auto justify-center px-3 py-1"> 
-     <div v-for="todos in allTodos" :key="todos.id" class="flex border border-1 py-1 my-3 px-4 rounded-lg" :class="{'bg-slate-300':todos.isCompleted}">
+     <div v-for="todos in storeAlltodos" :key="todos.id" class="flex border border-1 py-1 my-3 px-4 rounded-lg" :class="{'bg-slate-300':todos.isCompleted}">
     <div class="text text-xl w-2/5">{{ todos.todo }}</div>
     <label class="p-3 w-2/5" v-if="todos.isCompleted">completed</label>
     <label v-else class="p-3 w-2/5"> due date : {{ todos.duedate}}</label>
@@ -19,14 +19,14 @@
 </template>
 
 <script>
-import { ref ,onMounted, onUpdated,watchEffect} from 'vue';
+import { ref ,onMounted, onUpdated,watchEffect, computed} from 'vue';
 import {useStore} from 'vuex'
 
 export default {
  
 setup(props,context){
      const store =useStore()
-     const allTodos=ref(null)
+     const storeAlltodos=computed(()=> store.state.todos)
 
      const onChecked=async(todos)=>{
          const res=await fetch(`http://localhost:3000/todos/${todos.id}`,{
@@ -41,9 +41,14 @@ setup(props,context){
                isCompleted:todos.isCompleted
             })
          })
-         if(res.ok){
-            console.log(allTodos.value,'on checked value')
-         }
+         // if(res.ok){
+         //    store.commit('checkStatus',{
+         //       id:todos.id,
+         //       todo:todos.todo,
+         //       duedate:todos.duedate,
+         //       isCompleted:todos.isCompleted
+         //    })
+         // }
      }
      const deleteTodo=async(id)=>{
       try{
@@ -51,10 +56,7 @@ setup(props,context){
             method:'delete'
          })
          if(res.ok){
-               allTodos.value=allTodos.value.filter((todo)=>{
-                  return todo.id!=id
-               })
-               store.commit('changeTodos',allTodos.value)
+               store.commit('deleteTodo',id)
             }
       }catch(error){
          console.log(error,'delete error')
@@ -66,19 +68,18 @@ setup(props,context){
         })
      if(res.ok){
         const todos=await res.json();
-        allTodos.value=todos
-       console.log('mounted')
+        store.commit('getAllTodos',todos)
      }else{
         console.log(res,'err')
      }
     })
    
-    watchEffect(()=>{
-       context.emit('todoList',allTodos)
-       store.commit('changeTodos',allTodos.value)
-    })
+   //  watchEffect(()=>{
+   //     context.emit('todoList',allTodos)
+       
+   //  })
    
-    return {allTodos,onChecked,deleteTodo}
+    return {onChecked,deleteTodo,storeAlltodos}
 }
 }
 </script>
