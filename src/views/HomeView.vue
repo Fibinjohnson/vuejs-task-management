@@ -32,11 +32,12 @@ const todoInputSchema=Yup.object().shape({
   input:Yup.string().required("Add a todo")
 })
 import { DatePicker } from 'v-calendar';
-import {ref,reactive, onUpdated,watchEffect,inject} from 'vue'
+import {ref,reactive, onUpdated,watchEffect,inject, computed} from 'vue'
 import StatusList from './StatusList.vue'
 import 'v-calendar/style.css';
 import NavVue from'./NavVue.vue'
 import TodoList from "./TodoList.vue"
+import {useStore} from 'vuex'
 
 export default {
   name: 'HomeView',
@@ -47,6 +48,7 @@ export default {
     StatusList
   },
   setup(){
+    const store=useStore()
     const date=ref(new Date())
     const task=ref({
       input:''
@@ -55,6 +57,10 @@ export default {
       input:''
     })
     const todos=ref([])
+    const storeTodos=computed(()=>
+       store.commit.todos
+    )
+    
     const isCalender=ref(false)
     const calender=()=>{
       isCalender.value=!isCalender.value      
@@ -62,12 +68,16 @@ export default {
   
     const todoList=(data)=>{
      todos.value=data.value
-
     }
+
     const addTodo=async()=>{
       try{
         todoInputSchema.validate(task.value,{abortEarly:false}).then(async()=>{
-          const lastid=Math.max(...todos.value.map(todo=>todo.id))
+          let lastid=Math.max(...todos.value.map(todo=>todo.id))
+          if(lastid==-Infinity){
+            lastid=0
+          }
+          console.log(lastid,'last id')
           const res=await fetch('http://localhost:3000/todos',{
           method:'POST',
           headers: {
@@ -86,16 +96,16 @@ export default {
           todo:task.value.input,
           duedate:new Date(date.value).toLocaleString(),
           isCompleted:false})
+          console.log(storeTodos,'storeTodosf')
           isCalender.value=!isCalender.value  
           task.value.input=''
           date.value=new Date()
-    }
+          }
         }).catch((err)=>{
           err.inner.forEach((error)=>{
             errors.value={...errors.value,[error.path]:error.message}
           })
         })
-      
       }catch(err){
          console.log(err,'error occured')
       }

@@ -12,9 +12,5 @@
 <script>
 import {provide,inject } from 'vue'
 export default {
-  setup(){
-    const dummy=inject('dummy')
-    return {dummy }
-  }
 }
 </script>

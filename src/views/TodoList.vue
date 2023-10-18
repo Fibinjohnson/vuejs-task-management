@@ -19,11 +19,13 @@
 </template>
 
 <script>
-import { ref ,onMounted, onUpdated,defineEmits,watchEffect,provide} from 'vue';
+import { ref ,onMounted, onUpdated,watchEffect} from 'vue';
+import {useStore} from 'vuex'
+
 export default {
  
 setup(props,context){
-     
+     const store =useStore()
      const allTodos=ref(null)
 
      const onChecked=async(todos)=>{
@@ -39,6 +41,9 @@ setup(props,context){
                isCompleted:todos.isCompleted
             })
          })
+         if(res.ok){
+            console.log(allTodos.value,'on checked value')
+         }
      }
      const deleteTodo=async(id)=>{
       try{
@@ -49,6 +54,7 @@ setup(props,context){
                allTodos.value=allTodos.value.filter((todo)=>{
                   return todo.id!=id
                })
+               store.commit('changeTodos',allTodos.value)
             }
       }catch(error){
          console.log(error,'delete error')
@@ -61,16 +67,15 @@ setup(props,context){
      if(res.ok){
         const todos=await res.json();
         allTodos.value=todos
-        
+       console.log('mounted')
      }else{
         console.log(res,'err')
      }
     })
-    onUpdated(()=>{
-      
-    })
+   
     watchEffect(()=>{
        context.emit('todoList',allTodos)
+       store.commit('changeTodos',allTodos.value)
     })
    
     return {allTodos,onChecked,deleteTodo}

@@ -21,7 +21,6 @@ setup(props){
         return pendingTodos.length
         }
         return 0
-       
     })
     const completed=computed(()=>{
         if(props.todos!==null){
