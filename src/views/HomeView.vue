@@ -26,7 +26,7 @@
 
 </template>
 
-<script>
+<script setup>
 import * as Yup from "yup"
 const todoInputSchema=Yup.object().shape({
   input:Yup.string().required("Add a todo")
@@ -39,15 +39,7 @@ import NavVue from'./NavVue.vue'
 import TodoList from "./TodoList.vue"
 import {useStore} from 'vuex'
 import { addNewTodos } from '../services/todoHelpers';
-export default {
-  name: 'HomeView',
-  components: {
-    NavVue ,
-    DatePicker,
-    TodoList,
-    StatusList
-  },
-  setup(){
+  
     const store=useStore()
     const date=ref(new Date())
     const task=ref({
@@ -107,8 +99,5 @@ export default {
 
     }
 
-    return {date,task,calender,isCalender,addTodo ,todoList,todos,validate ,errors,storeTodos}
-  }
 
-}
 </script>

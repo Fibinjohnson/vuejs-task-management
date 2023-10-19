@@ -18,14 +18,12 @@
   </div>
 </template>
 
-<script>
+<script setup >
 import { ref ,onMounted, onUpdated,watchEffect, computed} from 'vue';
 import {useStore} from 'vuex'
-import axios from 'axios'
-import {onCheck,deleteTodos,getAllTodos      } from "../services/todoHelpers"
-export default {
- 
-setup(props,context){
+import {onCheck,deleteTodos,getAllTodos } from "../services/todoHelpers"
+
+
      const store =useStore()
      const storeAlltodos=computed(()=> store.state.todos)
 
@@ -39,25 +37,28 @@ setup(props,context){
          if(res.statusText==='OK'){
                store.dispatch('deleteTodo',id)
             }
-      }catch(error){
+        }catch(error){
          console.log(error,'delete error')
       }
      }
 
      onMounted( async()=>{
-       const res= await getAllTodos()
-     if(res.statusText==="OK"){
+      try{
+         const res= await getAllTodos()
+       if(res.statusText==="OK"){
         const todos=await res.data;
         store.dispatch('getAllTodos',todos)
-     }else{
-        console.log(res,'err')
-     }
+       }
+      }catch(err){
+         console.log(err,'moounted error')
+      }
+       
     })
    
    
-    return {onChecked,deleteTodo,storeAlltodos}
-}
-}
+   
+
+
 </script>
 
 <style>
