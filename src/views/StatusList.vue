@@ -1,6 +1,6 @@
 <template>
   <div class="flex justify-between p-5 px-10 ">
-    <div class="border rounded-lg w-96 h-20 shadow shadow-lg ">
+    <div class="border rounded-lg w-96 h-20 shadow shadow-lg">
         <p class=" flex justify-center items-center  mt-3  underline underline-offset-[3px] decoration-solid p-3">completed todos: {{ completed }}</p>
     </div>
     <div class="border rounded-lg w-96 h-20 shadow shadow-lg">

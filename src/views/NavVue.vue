@@ -6,11 +6,12 @@
       <div class="flex w-full flex-wrap items-center justify-between px-3">
         <div class="ml-2">
           <router-link to="/" class="text-xl text-neutral-800 dark:text-neutral-200">
-      Home
+      Home 
     </router-link>
           
         </div>
-        
+
+   
         <button
           class="block border-0 bg-transparent px-2 text-neutral-500 hover:no-underline hover:shadow-none focus:no-underline focus:shadow-none focus:outline-none focus:ring-0 dark:text-neutral-200 lg:hidden"
           type="button"
@@ -33,7 +34,6 @@
             </svg>
           </span>
         </button>
-    
         <!-- Collapsible navbar container -->
         <div
           class="!visible mt-2 hidden flex-grow basis-[100%] items-center lg:mt-0 lg:!flex lg:basis-auto"
@@ -54,6 +54,7 @@
             <!-- Pricing link -->
           </ul>
           
+          <div class="flex justify-center mr-auto ml-30 ">{{ formattedDateTime }} </div>
           
       <div>
         <div class="relative">
@@ -119,6 +120,17 @@
     import { ref } from 'vue';
     
       const show=ref(false)
+      function formatDateTime(date) {
+      const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+      const dayOfWeek = daysOfWeek[date.getDay()];
+      const day = String(date.getDate()).padStart(2, '0');
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const year = String(date.getFullYear()).slice(-2);
+      return `${dayOfWeek} ${day}-${month}-${year}`;
+    }
+    
+    const currentDate = new Date();
+    const formattedDateTime = formatDateTime(currentDate);
    
 
     </script>
