@@ -38,7 +38,7 @@ import 'v-calendar/style.css';
 import NavVue from'./NavVue.vue'
 import TodoList from "./TodoList.vue"
 import {useStore} from 'vuex'
-import axios from 'axios'
+import { addNewTodos } from '../services/todoHelpers';
 export default {
   name: 'HomeView',
   components: {
@@ -77,22 +77,14 @@ export default {
           if(lastid==-Infinity){
             lastid=0
           }
-          console.log(lastid,'last id')
-          const res=await axios.post('http://localhost:3000/todos',
-       {
+          const toAddList=  {
           id:lastid+1,
           todo:task.value.input,
           duedate:new Date(date.value).toLocaleString(),
-          isCompleted:false},{ headers: {
-        'Content-Type':'application/json'
-       }
-      })
+          isCompleted:false}
+          const res=await addNewTodos(toAddList)
       if(res.statusText==='Created'){
-        
-          store.dispatch('insertNewTodo',{ id:lastid+1,
-          todo:task.value.input,
-          duedate:new Date(date.value).toLocaleString(),
-          isCompleted:false})
+          store.dispatch('insertNewTodo',toAddList)
           isCalender.value=!isCalender.value  
           task.value.input=''
           date.value=new Date()

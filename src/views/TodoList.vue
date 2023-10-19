@@ -22,6 +22,7 @@
 import { ref ,onMounted, onUpdated,watchEffect, computed} from 'vue';
 import {useStore} from 'vuex'
 import axios from 'axios'
+import {onCheck,deleteTodos,getAllTodos      } from "../services/todoHelpers"
 export default {
  
 setup(props,context){
@@ -29,16 +30,12 @@ setup(props,context){
      const storeAlltodos=computed(()=> store.state.todos)
 
      const onChecked=async(todos)=>{
-      const res= await axios.patch(`http://localhost:3000/todos/${todos.id}`,{
-                id:todos.id,
-                todo:todos.todo,
-                duedate:todos.duedate,
-                isCompleted:todos.isCompleted
-           })
+      const res=await onCheck(todos)
      }
+
      const deleteTodo=async(id)=>{
       try{
-         const res=await axios.delete(`http://localhost:3000/todos/${id}`)
+        const res= await deleteTodos(id)
          if(res.statusText==='OK'){
                store.dispatch('deleteTodo',id)
             }
@@ -46,8 +43,9 @@ setup(props,context){
          console.log(error,'delete error')
       }
      }
+
      onMounted( async()=>{
-        const res=await axios.get('http://localhost:3000/todos')
+       const res= await getAllTodos()
      if(res.statusText==="OK"){
         const todos=await res.data;
         store.dispatch('getAllTodos',todos)
@@ -56,10 +54,6 @@ setup(props,context){
      }
     })
    
-   //  watchEffect(()=>{
-   //     context.emit('todoList',allTodos)
-       
-   //  })
    
     return {onChecked,deleteTodo,storeAlltodos}
 }

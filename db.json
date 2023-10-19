@@ -1,16 +1,3 @@
 {
-  "todos": [
-    {
-      "id": 2,
-      "todo": "Wash clothes",
-      "duedate": "22/10/2023, 17:02:38",
-      "isCompleted": true
-    },
-    {
-      "id": 3,
-      "todo": "bbbb",
-      "duedate": "14/10/2023, 18:03:19",
-      "isCompleted": false
-    }
-  ]
+  "todos": []
 }
