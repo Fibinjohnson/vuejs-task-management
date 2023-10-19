@@ -75,7 +75,7 @@ import { addNewTodos } from '../services/todoHelpers';
           duedate:new Date(date.value).toLocaleString(),
           isCompleted:false}
           const res=await addNewTodos(toAddList)
-      if(res.statusText==='Created'){
+        if(res.statusText==='Created'){
           store.dispatch('insertNewTodo',toAddList)
           isCalender.value=!isCalender.value  
           task.value.input=''

@@ -6,7 +6,9 @@ const  store=createStore({
       todos:[]
     },
     getters:{
-
+      pendingList(state){
+        return state.todos.length
+      }
     },
     mutations:{
         getAllTodos(state,todos){

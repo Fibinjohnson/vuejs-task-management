@@ -115,16 +115,12 @@
     </nav>
     </template>
     
-    <script>
+    <script setup>
     import { ref } from 'vue';
-    export default {
-     setup(){
+    
       const show=ref(false)
-      return {
-        show
-      }
-     }
-    }
+   
+
     </script>
     
     <style>

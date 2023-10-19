@@ -1,6 +1,10 @@
-<template>
-  <div  class="flexflex-col w-4/5 ml-auto mr-auto justify-center px-3 py-1"> 
-     <div v-for="todos in storeAlltodos" :key="todos.id" class="flex border border-1 py-1 my-3 px-4 rounded-lg" :class="{'bg-slate-300':todos.isCompleted}">
+
+<template >
+   <div v-if="getterTodos===0" class="flexflex-col mr-auto ml-auto  justify-center px-1 py-3 my-9 border rounded-lg w-96 h-30 shadow shadow-2xl">
+    <p class="flex justify-center py-6">No Pending tasks</p>
+</div >
+  <div v-else class="flexflex-col w-4/5 ml-auto mr-auto justify-center px-3 py-1 "> 
+     <div v-for="todos in storeAlltodos" :key="todos.id" class="flex border border-1 py-1 my-3 px-4 rounded-lg shadow shadow-sm" :class="{'bg-slate-300 shadow shadow-sm':todos.isCompleted}">
     <div class="text text-xl w-2/5">{{ todos.todo }}</div>
     <label class="p-3 w-2/5" v-if="todos.isCompleted">completed</label>
     <label v-else class="p-3 w-2/5"> due date : {{ todos.duedate}}</label>
@@ -19,14 +23,17 @@
 </template>
 
 <script setup >
-import { ref ,onMounted, onUpdated,watchEffect, computed} from 'vue';
+import { ref,onMounted, computed} from 'vue';
 import {useStore} from 'vuex'
 import {onCheck,deleteTodos,getAllTodos } from "../services/todoHelpers"
 
 
      const store =useStore()
      const storeAlltodos=computed(()=> store.state.todos)
-
+     const getterTodos=computed(()=>{
+      return store.getters.pendingList
+    })
+    const todosCount=ref(getterTodos.value)
      const onChecked=async(todos)=>{
       const res=await onCheck(todos)
      }
@@ -50,15 +57,10 @@ import {onCheck,deleteTodos,getAllTodos } from "../services/todoHelpers"
         store.dispatch('getAllTodos',todos)
        }
       }catch(err){
-         console.log(err,'moounted error')
+         console.log(err,'mounted error')
       }
        
     })
-   
-   
-   
-
-
 </script>
 
 <style>
