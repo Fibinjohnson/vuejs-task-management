@@ -21,6 +21,14 @@ const  store=createStore({
             state.todos=state.todos.filter((todo)=>{
                 return todo.id!==id
             })
+         },
+         changeStatus(state,payload){
+           state.todos=state.todos.map((todo)=>{
+            if(todo.id===payload.id){
+               return payload
+            }
+            return todo
+           })
          }
     },
     actions:{
@@ -32,6 +40,9 @@ const  store=createStore({
         },
         deleteTodo(context,payload){
             context.commit('deleteTodo',payload)
+        },
+        changeStatus(context,payload){
+            context.commit('changeStatus',payload)
         }
     }
 })
