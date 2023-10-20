@@ -46,3 +46,18 @@ export const addNewTodos=async(addedList)=>{
         
      })
 }
+ export const editPromise=async(todos)=>{
+    return new Promise(async(resolve, reject)=>{
+      try{
+         const res=await axios.patch(`http://localhost:3000/todos/${todos.id}`,todos,{
+            headers:{
+                'Content-Type':'application/json'
+            }
+         })
+         
+         resolve(res)
+      }catch(err){
+         reject(err)
+      }
+    })
+ }

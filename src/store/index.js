@@ -29,6 +29,9 @@ const  store=createStore({
             }
             return todo
            })
+         },
+         editTodos(state,payload){
+
          }
     },
     actions:{
@@ -43,6 +46,9 @@ const  store=createStore({
         },
         changeStatus(context,payload){
             context.commit('changeStatus',payload)
+        },
+        editTodos(context,payload){
+          context.commit('editTodos',payload)
         }
     }
 })
