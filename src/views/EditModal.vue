@@ -72,11 +72,11 @@
 
 <script setup>
 import {useStore} from 'vuex'
-import {ref,toRefs,watch,defineProps,defineEmits,reactive} from 'vue'
+import {ref,toRefs,watch,defineProps,defineEmits} from 'vue'
 import { DatePicker } from 'v-calendar';
 import {editPromise} from "../services/todoHelpers"
 const store=useStore()
-const date=ref(new Date())
+
 
 const props=defineProps({
     dialog:Boolean,
@@ -86,7 +86,7 @@ const props=defineProps({
 const emit=defineEmits(['closeModal'])
 const isCalender=ref(false)
 const {dialog,todos}=toRefs(props)
-
+console.log(todos,'2222')
 const calender=()=>{
      isCalender.value= !isCalender.value
      
@@ -98,7 +98,7 @@ const toEdit=ref(dialog)
 const modalValue=ref(todos)
 const editTodoList=(todos)=>{
     try{
-   console.log(modalValue,'modalTodo list')
+   console.log(todos.value,'modalTodo list')
     emit('closeModal')
  
      
