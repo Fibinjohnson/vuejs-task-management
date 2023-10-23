@@ -72,7 +72,7 @@
 
 <script setup>
 import {useStore} from 'vuex'
-import {ref,toRefs,watch,defineProps,defineEmits} from 'vue'
+import {ref,toRefs,watch,defineProps,defineEmits,computed} from 'vue'
 import { DatePicker } from 'v-calendar';
 import {editPromise} from "../services/todoHelpers"
 const store=useStore()
@@ -83,10 +83,10 @@ const props=defineProps({
     todos:Object
   
 })
+
 const emit=defineEmits(['closeModal'])
 const isCalender=ref(false)
 const {dialog,todos}=toRefs(props)
-console.log(todos,'2222')
 const calender=()=>{
      isCalender.value= !isCalender.value
      
@@ -96,10 +96,24 @@ const toEdit=ref(dialog)
 //     dialog
 // }
 const modalValue=ref(todos)
-const editTodoList=(todos)=>{
+const editTodoList=async(todos)=>{
     try{
-   console.log(todos.value,'modalTodo list')
-    emit('closeModal')
+      console.log(todos,'todos')
+     const res=await editPromise({
+      id:todos.id,
+      duedate:new Date(todos.duedate).toLocaleString(),
+      todo:todos.todo,
+      isCompleted:todos.isCompleted
+     })
+     emit('closeModal')
+     if(res.statusText==='OK'){
+      store.dispatch('editTodos',{
+      id:todos.id,
+      todo:todos.todo,
+      duedate:new Date(todos.duedate).toLocaleString(),
+      isCompleted:todos.isCompleted
+     })
+     }
  
      
     }catch(err){

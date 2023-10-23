@@ -1,28 +1,22 @@
 {
   "todos": [
     {
-      "id": 4,
-      "todo": "Wash clothes",
-      "duedate": "21/10/2023, 17:23:20",
-      "isCompleted": false
-    },
-    {
-      "id": 6,
-      "todo": "kkkkkkk",
-      "duedate": "01/10/2023, 18:27:00",
-      "isCompleted": false
-    },
-    {
       "id": 9,
-      "todo": "do disheshhhhhhh",
-      "duedate": "2023-10-07T18:30:00.000Z",
+      "todo": "do dishes ",
+      "duedate": "28/10/2023, 00:00:00",
       "isCompleted": false
     },
     {
       "id": 10,
-      "todo": "eat",
-      "duedate": "22/10/2023, 17:35:53",
+      "todo": "eat food",
+      "duedate": "Invalid Date",
       "isCompleted": false
+    },
+    {
+      "id": 11,
+      "todo": "Wash clothes",
+      "duedate": "14/10/2023, 10:20:12",
+      "isCompleted": true
     }
   ]
 }

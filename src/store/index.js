@@ -3,24 +3,34 @@ import {createStore} from 'vuex'
 
 const  store=createStore({
     state:{
-      todos:[]
+      todos:[]  ,
+      modalTodos:[]
     },
     getters:{
       pendingList(state){
         return state.todos.length
+      },
+      editModal:(state)=>(id)=>{
+        return state.todos.filter((todo)=>{
+          return todo.id===id
+        })
       }
     },
     mutations:{
         getAllTodos(state,todos){
              state.todos=todos
+            
         },
          insertNewTodo(state,todos){
                 state.todos.push(todos)
+                
          },
          deleteTodo(state,id){
             state.todos=state.todos.filter((todo)=>{
                 return todo.id!==id
             })
+        
+
          },
          changeStatus(state,payload){
            state.todos=state.todos.map((todo)=>{
@@ -29,9 +39,16 @@ const  store=createStore({
             }
             return todo
            })
+        
+
          },
          editTodos(state,payload){
-
+            state.todos=state.todos.map((todo)=>{
+              if(todo.id===payload.id){
+                return payload 
+              }
+              return todo
+            })
          }
     },
     actions:{

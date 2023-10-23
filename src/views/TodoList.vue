@@ -70,7 +70,7 @@
 
 <script setup >
 
-import { ref,onMounted, computed,reactive} from 'vue';
+import { ref,onMounted, computed,reactive, onUpdated} from 'vue';
 import {useStore} from 'vuex'
 import {onCheck,deleteTodos,getAllTodos } from "../services/todoHelpers"
 import EditModal from './EditModal.vue'
@@ -78,15 +78,17 @@ import EditModal from './EditModal.vue'
 
      const store =useStore()
      const storeAlltodos=computed(()=> store.state.todos)
-     const modalValue=ref(null)
-     const storeTodos=computed(()=>{
-      return store.state.todos
-   })
+     const storeModaltodos=computed(()=> store.state.modalTodos)
+     console.log(storeModaltodos,'store modaltods')
+     const modalValue=ref([])
+     const storeTodos=ref(storeAlltodos)
+   
      const getterTodos=computed(()=>{
       return store.getters.pendingList
     })
     const todosCount=ref(getterTodos.value)
     const dialog=ref(false)
+
      const onChecked=async(todos)=>{
       try{
          const res=await onCheck(todos)
@@ -100,7 +102,6 @@ import EditModal from './EditModal.vue'
       }catch(err){
          console.log(err,'error at change status ')
       }
-      
      }
     
      const deleteTodo=async(id)=>{
@@ -121,11 +122,10 @@ import EditModal from './EditModal.vue'
 
    const editTodo=(id)=>{
       dialog.value=true
-      modalValue.value=storeTodos.value.filter((todo)=>{
-         return todo.id===id
-      })
-      
+      modalValue.value= {...store.getters.editModal(id)[0]}
+      console.log(modalValue.value.duedate,'due date')
    }
+
      onMounted( async()=>{
       try{
          const res= await getAllTodos()
