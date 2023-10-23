@@ -3,17 +3,43 @@
    <NavVue/>
    
   <div class="home">
-    <form  @submit.prevent="addTodo">
-    <div class="flex justify-center pt-8">
+  
      
-      <input @blur="validate('input')" @keypress="validate('input')" :class="{'border border-red-500':errors.input}" class="border border-gray-500 rounded py-2 px-6 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" v-model="task.input" type="text" name="todos" id="" placeholder="add todos ....">
+      <!-- <input @blur="validate('input')" @keypress="validate('input')" :class="{'border border-red-500':errors.input}" class="border border-gray-500 rounded py-2 px-6 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" v-model="task.input" type="text" name="todos" id="" placeholder="add todos ...."> -->
+      <v-responsive
+    class="mx-auto"
+    max-width="344"
+  >
+  <form  @submit.prevent="addTodo">
+    <div class="flex justify-center pt-8">
+      <v-text-field
+      :rules="[rules.required]"
+      v-model="task.input" 
+      clearable
+      label="Add todo"
+     ></v-text-field>
+     <div class="p-x pt-2">
       <svg @click="calender" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10 ">
-  <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5m-9-6h.008v.008H12v-.008zM12 15h.008v.008H12V15zm0 2.25h.008v.008H12v-.008zM9.75 15h.008v.008H9.75V15zm0 2.25h.008v.008H9.75v-.008zM7.5 15h.008v.008H7.5V15zm0 2.25h.008v.008H7.5v-.008zm6.75-4.5h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V15zm0 2.25h.008v.008h-.008v-.008zm2.25-4.5h.008v.008H16.5v-.008zm0 2.25h.008v.008H16.5V15z" />
-</svg>
-<button class="mb-3" type="submit"> <svg   width="64px" height="40px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M4 12H20M12 4V20" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
-</button>
+    <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5m-9-6h.008v.008H12v-.008zM12 15h.008v.008H12V15zm0 2.25h.008v.008H12v-.008zM9.75 15h.008v.008H9.75V15zm0 2.25h.008v.008H9.75v-.008zM7.5 15h.008v.008H7.5V15zm0 2.25h.008v.008H7.5v-.008zm6.75-4.5h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V15zm0 2.25h.008v.008h-.008v-.008zm2.25-4.5h.008v.008H16.5v-.008zm0 2.25h.008v.008H16.5V15z" />
+    </svg>
+     </div>
+<!--   
+    <button class="mb-3" type="submit"> <svg   width="64px" height="40px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M4 12H20M12 4V20" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+    </button> -->
+ <div class="p-3">
+  <v-btn  size="small"
+     type="submit"
+     >
+       Add
+     </v-btn>
+ </div>
+   
+     
+    
     </div>
   </form>
+  </v-responsive>
+
   
   </div>
   <div class="flex justify-center ">
@@ -28,6 +54,8 @@
 
 <script setup>
 import * as Yup from "yup"
+import SvgIcon from '@jamescoyle/vue-icon'
+import { mdiAccount } from '@mdi/js'
 const todoInputSchema=Yup.object().shape({
   input:Yup.string().required("Add a todo")
 })
@@ -52,7 +80,9 @@ import { addNewTodos } from '../services/todoHelpers';
     const storeTodos=computed(()=>
        store.state.todos
     )
-    
+    const rules = {
+  required: (value) => !!value || 'Field is required',
+};
     const isCalender=ref(false)
     const calender=()=>{
       isCalender.value=!isCalender.value      

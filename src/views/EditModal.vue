@@ -98,7 +98,7 @@ const toEdit=ref(dialog)
 const modalValue=ref(todos)
 const editTodoList=async(todos)=>{
     try{
-      console.log(todos,'todos')
+  
      const res=await editPromise({
       id:todos.id,
       duedate:new Date(todos.duedate).toLocaleString(),
@@ -113,9 +113,7 @@ const editTodoList=async(todos)=>{
       duedate:new Date(todos.duedate).toLocaleString(),
       isCompleted:todos.isCompleted
      })
-     }
- 
-     
+    }
     }catch(err){
         console.log(err,"edit error ")
     }
