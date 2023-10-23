@@ -4,7 +4,7 @@
         <p class=" flex justify-center items-center  mt-3  underline underline-offset-[3px] decoration-solid p-3">completed todos: {{ completed }}</p>
     </div>
     <div class="border rounded-lg w-96 h-20 shadow shadow-lg">
-        <p class="flex justify-center mt-3  underline underline-offset-[3px] decoration-solid p-3">Active todos:{{ pending }}</p>
+        <p class="flex justify-center mt-3  underline underline-offset-[3px] decoration-solid p-3">Active todos:{{ active }}</p>
     </div>
   </div>
 </template>
@@ -18,19 +18,16 @@ import {useStore} from 'vuex'
     const storeTodos= computed(()=>{
       return store.state.todos
     })
-    const pending=computed(()=>{
+    const active=computed(()=>{
         if(storeTodos.todos!==null){
-            const pendingTodos= storeTodos.value.filter((todo)=>{return todo.isCompleted==false})
-        return pendingTodos.length
+          return store.getters.activeTodos
         }
-        return 0
+       
     })
     const completed=computed(()=>{
         if(storeTodos.todos!==null){
-            const pendingTodos= storeTodos.value.filter((todo)=>{return todo.isCompleted==true})
-        return pendingTodos.length
+           return store.getters.completedTodos
         }
-        return 0
        
     })
     
