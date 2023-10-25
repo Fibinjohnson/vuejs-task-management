@@ -5,7 +5,6 @@ const activeTodos={
     namespaced: true,
     state:{
       activeTodos:[],
-      allTodos:[]
     },
   
     getters:activeGetters,

@@ -7,7 +7,7 @@ const activeMutations={
     },
     insertNewTodo(state,todo){
       state.activeTodos.push(todo)
-      state.allTodos.push(todo)
+      
     },
     editTodo(state,payload){
       state.activeTodos=state.activeTodos.map((todo)=>{

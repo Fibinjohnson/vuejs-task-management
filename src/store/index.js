@@ -2,12 +2,13 @@
 import {createStore} from 'vuex'
 import completedTodos from './completed'
 import activeTodos from './active'
-
+import allTodos from './allTodos'
 
 const  store=createStore({
   modules:{
     active:activeTodos,
-    completed:completedTodos
+    completed:completedTodos,
+    all:allTodos
   },
     
    

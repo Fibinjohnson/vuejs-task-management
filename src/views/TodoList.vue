@@ -71,7 +71,6 @@ import EditModal from './EditModal.vue'
      const onCheckedActive=async(todos)=>{
       try{
          const res=await onCheck(todos)
-         console.log(res )
          if(res.statusText==='OK'){
             store.dispatch('active/removeItem',todos.id)
 
@@ -89,7 +88,6 @@ import EditModal from './EditModal.vue'
      const onCheckedCompleted=async(todos)=>{
       try{
          const res=await onCheck(todos)
-         console.log(res )
          if(res.statusText==='OK'){
           
             store.dispatch('completed/removeItem',todos.id)
@@ -111,6 +109,7 @@ import EditModal from './EditModal.vue'
         const res= await deleteTodos(id)
          if(res.statusText==='OK'){
                store.dispatch('completed/deleteTodo',id)
+               store.dispatch('all/deleteFromAll',id)
             }
         }catch(error){
          console.log(error,'delete error')
@@ -148,7 +147,7 @@ import EditModal from './EditModal.vue'
         })
         store.dispatch('active/getAllactiveTodos',activeList)
         store.dispatch('completed/getAllCompletedTodos',completedList)
-        store.dispatch('active/getAllTodos',todos)
+       
        
        }
       }catch(err){
