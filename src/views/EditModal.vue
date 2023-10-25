@@ -5,7 +5,6 @@
       persistent
       width="450"
     >
-     
       <v-card>
         <form  @submit.prevent="editTodoList(modalValue)"> 
         <v-card-title>
@@ -92,14 +91,10 @@ const calender=()=>{
      
 }
 const toEdit=ref(dialog)
-// const closeMOdal=()=>{
-//     dialog
-// }
 const modalValue=ref(todos)
 const editTodoList=async(todos)=>{
     try{
-  
-     const res=await editPromise({
+      const res=await editPromise({
       id:todos.id,
       duedate:new Date(todos.duedate).toLocaleString(),
       todo:todos.todo,
@@ -113,13 +108,10 @@ const editTodoList=async(todos)=>{
       duedate:new Date(todos.duedate).toLocaleString(),
       isCompleted:todos.isCompleted
      })
-    }
+   }
     }catch(err){
         console.log(err,"edit error ")
     }
 }
-
-
-
 </script>
 

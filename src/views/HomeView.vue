@@ -1,11 +1,7 @@
 <template>
 <div>
    <NavVue/>
-   
-  <div class="home">
-  
-     
-      <!-- <input @blur="validate('input')" @keypress="validate('input')" :class="{'border border-red-500':errors.input}" class="border border-gray-500 rounded py-2 px-6 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" v-model="task.input" type="text" name="todos" id="" placeholder="add todos ...."> -->
+   <div class="home">
       <v-responsive
     class="mx-auto"
     max-width="344"
@@ -24,7 +20,6 @@
     </svg>
      </div>
 
-     <!-- <svg   width="64px" height="40px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M4 12H20M12 4V20" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> -->
    
  <div class="p-3">
   <v-btn  
@@ -36,14 +31,9 @@
        Add
      </v-btn>
  </div>
-   
-     
-    
     </div>
   </form>
   </v-responsive>
-
-  
   </div>
   <div class="flex justify-center ">
       <DatePicker  v-if="isCalender" v-model="date" mode="dateTime"/>
@@ -52,23 +42,21 @@
     <TodoList/>
     <StatusList/>
 </div>
-
 </template>
 
 <script setup>
 import * as Yup from "yup"
-import SvgIcon from '@jamescoyle/vue-icon'
-import { mdiAccount } from '@mdi/js'
+
 const todoInputSchema=Yup.object().shape({
   input:Yup.string().required("Add a todo")
 })
 import { DatePicker } from 'v-calendar';
-import {ref,reactive, onUpdated,watchEffect,inject, computed} from 'vue'
+import {ref, computed} from 'vue'
 import StatusList from './StatusList.vue'
 import 'v-calendar/style.css';
 import NavVue from'./NavVue.vue'
 import TodoList from "./TodoList.vue"
-import {useStore} from 'vuex'
+import {useStore,mapState,mapActions} from 'vuex'
 import { addNewTodos } from '../services/todoHelpers';
   
     const store=useStore()
@@ -110,7 +98,7 @@ import { addNewTodos } from '../services/todoHelpers';
           const res=await addNewTodos(toAddList)
         if(res.statusText==='Created'){
           store.dispatch('insertNewTodo',toAddList)
-          isCalender.value=!isCalender.value  
+          isCalender.value=false 
           task.value.input=''
           date.value=new Date()
           }

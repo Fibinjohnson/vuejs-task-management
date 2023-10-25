@@ -1,13 +1,16 @@
 import axios from 'axios'
 export const onCheck=async(todos)=>{
-       return new Promise(async(resolve,reject)=>{
+       return new Promise(async(resolve,reject)=>{try{
         const res= await axios.patch(`http://localhost:3000/todos/${todos.id}`,{
             id:todos.id,
             todo:todos.todo,
             duedate:todos.duedate,
             isCompleted:todos.isCompleted
        })
-       resolve(res)
+         resolve(res)
+       }catch(err){
+         resolve(err)
+       }
        })
     }
 export const deleteTodos=async(id)=>{
@@ -31,6 +34,10 @@ export const getAllTodos=()=>{
      
     })
 }
+
+
+
+
 export const addNewTodos=async(addedList)=>{
      return new Promise(async(resolve,reject)=>{
         try{
