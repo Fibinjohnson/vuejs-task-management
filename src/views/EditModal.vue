@@ -102,7 +102,7 @@ const editTodoList=async(todos)=>{
      })
      emit('closeModal')
      if(res.statusText==='OK'){
-      store.dispatch('editTodos',{
+      store.dispatch('active/editTodos',{
       id:todos.id,
       todo:todos.todo,
       duedate:new Date(todos.duedate).toLocaleString(),

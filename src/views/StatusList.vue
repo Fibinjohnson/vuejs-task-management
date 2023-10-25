@@ -19,15 +19,15 @@ import {useStore} from 'vuex'
       return store.state.todos
     })
     const active=computed(()=>{
-        if(storeTodos.todos!==null){
-          return store.getters.activeTodos
-        }
+     
+          return store.getters['active/activeCount']
+        
        
     })
     const completed=computed(()=>{
-        if(storeTodos.todos!==null){
-           return store.getters.completedTodos
-        }
+       
+           return store.getters['completed/completedCount']
+        
        
     })
     

@@ -4,7 +4,8 @@ import activeMutations from "./mutations"
 const activeTodos={
     namespaced: true,
     state:{
-      activeTodos:[]
+      activeTodos:[],
+      allTodos:[]
     },
   
     getters:activeGetters,

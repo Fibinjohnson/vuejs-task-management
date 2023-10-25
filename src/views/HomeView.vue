@@ -69,7 +69,7 @@ import { addNewTodos } from '../services/todoHelpers';
     })
     const todos=ref([])
     const storeTodos=computed(()=>
-       store.state.todos
+       store.state.active.allTodos
     )
     const rules = {
   required: (value) => !!value || 'Field is required',
@@ -87,6 +87,7 @@ import { addNewTodos } from '../services/todoHelpers';
       try{
         todoInputSchema.validate(task.value,{abortEarly:false}).then(async()=>{
           let lastid=Math.max(...storeTodos.value.map(todo=>todo.id))
+          console.log(lastid)
           if(lastid==-Infinity){
             lastid=0
           }
@@ -97,12 +98,13 @@ import { addNewTodos } from '../services/todoHelpers';
           isCompleted:false}
           const res=await addNewTodos(toAddList)
         if(res.statusText==='Created'){
-          store.dispatch('insertNewTodo',toAddList)
+          store.dispatch('active/insertNewTodo',toAddList)
           isCalender.value=false 
           task.value.input=''
           date.value=new Date()
           }
         }).catch((err)=>{
+          console.log(err)
           err.inner.forEach((error)=>{
             errors.value={...errors.value,[error.path]:error.message}
           })
