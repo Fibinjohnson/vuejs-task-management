@@ -6,7 +6,7 @@
       width="450"
     >
       <v-card>
-        <Form  @submit.prevent="editTodoList(modalValue)" :validation-schema="schema"> 
+        <form  @submit.prevent="editTodoList(modalValue)" :validation-schema="schema"> 
         <v-card-title>
           <span class="text-h5"> Edit Todo</span>
         </v-card-title>
@@ -18,7 +18,9 @@
                 <v-text-field
                   label="Edit Todo"
                   :rules="[rules.required]"
-                 v-model="modalValue.todo"
+                   v-model="modalValue.todo"
+                
+                
                   persistent-hint
                   
                 ></v-text-field>
@@ -63,7 +65,7 @@
             Save
           </v-btn>
         </v-card-actions>
-    </Form>
+    </form>
       </v-card>
     </v-dialog>
   </v-row>
@@ -71,9 +73,11 @@
 
 <script setup>
 import {useStore} from 'vuex'
-import {ref,toRefs,defineProps,defineEmits,computed} from 'vue'
+import {ref,toRefs,defineProps,defineEmits,computed,reactive} from 'vue'
 import { DatePicker } from 'v-calendar';
 import {editPromise} from "../services/todoHelpers"
+import {useVuelidate} from '@vuelidate/core'
+import {required} from '@vuelidate/validators'
 const store=useStore()
 
 const props=defineProps({
@@ -92,6 +96,11 @@ const calender=()=>{
 
 const toEdit=ref(dialog)
 const modalValue=ref(todos)
+
+
+
+// const v$=useVuelidate(rule,state)
+
 const isEmpty=computed(()=>{
   if(modalValue.value.todo===''){
     return true
@@ -108,6 +117,7 @@ const rules = {
     };
 const editTodoList=async(todos)=>{
     try{
+      v$.$validate
       const res=await editPromise({
       id:todos.id,
       duedate:new Date(todos.duedate).toLocaleString(),

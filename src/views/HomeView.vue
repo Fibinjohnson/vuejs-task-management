@@ -45,6 +45,8 @@
 
 <script setup>
 import * as Yup from "yup"
+import {useVuelidate} from '@vuelidate/core'
+import {required} from '@vuelidate/validators'
 
 const todoInputSchema=Yup.object().shape({
   input:Yup.string().required("Add a todo")
