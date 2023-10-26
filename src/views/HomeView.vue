@@ -51,6 +51,7 @@ import {required} from '@vuelidate/validators'
 const todoInputSchema=Yup.object().shape({
   input:Yup.string().required("Add a todo")
 })
+import { reactive} from 'vue'
 import { DatePicker } from 'v-calendar';
 import {ref} from 'vue'
 import StatusList from './StatusList.vue'
@@ -59,7 +60,12 @@ import NavVue from'./NavVue.vue'
 import TodoList from "./TodoList.vue"
 import {useStore} from 'vuex'
 import { addNewTodos } from '../services/todoHelpers';
-  
+    const initialState={
+      todo:''
+    }
+    const state=reactive({
+      ...initialState
+    })
     const store=useStore()
     const date=ref(new Date())
     const task=ref({
