@@ -10,7 +10,7 @@
     <div v-if="completedTodosCount===0" class=" flex justify-center  align-center p-48 pr-96" ><p class="subpixel-antialiased font-bold hover:antialiased"> No Completed Todos</p></div>
     <div v-for="todos in completedTodos" :key="todos.id" class="parent ml-auto space-x-10 ml-auto px-3 py-1">
       <div class="flex flex-row">
-        <div v-if="todos.isCompleted" class="active justify-between bg-slate-300 shadow shadow-sm  flex flex-row border border-1 w-full h-14 rounded shadow shadow-sm">
+        <div  class="active justify-between bg-slate-300 shadow shadow-sm  flex flex-row border border-1 w-full h-14 rounded shadow shadow-sm">
            <div class="w-52 p-3">{{ todos.todo }} </div>
            <label class=" p-3 w-46 " ><b>Completed</b></label>
            <v-switch class="" label="Mark as active" v-model="todos.isCompleted" v-on:change="onCheckedCompleted(todos)" inset></v-switch>
@@ -28,7 +28,7 @@
     <div class="justify-center align-center p-48 pr-96"   v-if="activeTodosCount===0"><p class="subpixel-antialiased  hover:antialiased font-bold">No active todos</p></div>
    <div v-for="todos in activeTodos" :key="todos.id" class="parent ml-auto space-x-10 mr-auto px-3 py-1">
       <div class="flex flex-row">
-        <div v-if="!todos.isCompleted" class="active  flex flex-row border border-1 h-14 rounded shadow shadow-sm w-full">
+        <div  class="active  flex flex-row border border-1 h-14 rounded shadow shadow-sm w-full">
           <div class="w-52 p-3">{{ todos.todo }}</div>
           <label class="p-3 w-96 ">Due date: {{ todos.duedate }}</label>
           <div class="p-3 pl-6 mr-6" @click="editTodo(todos.id)">
@@ -36,6 +36,9 @@
           </div>
           <EditModal :todos="modalValue" @close-modal="closeModal" :dialog="dialog"/>
           <v-switch label="Mark as completed" class=" mr-12 pl-4" v-model="todos.isCompleted" v-on:change="onCheckedActive(todos)" inset></v-switch>
+          <div  class=" w-54 pl-4 flex justify-end  mr-4">
+          <svg class="" @click="deleteTodoActive(todos.id)" width="26px"  height="46px" viewBox="0 -0.5 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>delete [#1487]</title> <desc>Created with Sketch.</desc> <defs> </defs> <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g id="Dribbble-Light-Preview" transform="translate(-179.000000, -360.000000)" fill="#000000"> <g id="icons" transform="translate(56.000000, 160.000000)"> <path d="M130.35,216 L132.45,216 L132.45,208 L130.35,208 L130.35,216 Z M134.55,216 L136.65,216 L136.65,208 L134.55,208 L134.55,216 Z M128.25,218 L138.75,218 L138.75,206 L128.25,206 L128.25,218 Z M130.35,204 L136.65,204 L136.65,202 L130.35,202 L130.35,204 Z M138.75,204 L138.75,200 L128.25,200 L128.25,204 L123,204 L123,206 L126.15,206 L126.15,220 L140.85,220 L140.85,206 L144,206 L144,204 L138.75,204 Z" id="delete-[#1487]"> </path> </g> </g> </g> </g></svg>
+         </div>
         </div>
       </div>
     </div>
@@ -55,25 +58,23 @@ import EditModal from './EditModal.vue'
      const activeTodos=computed(()=>store.state['active'].activeTodos)
      const completedTodos=computed(()=>store.state['completed'].completedTodos)
      const modalValue=ref([])
- 
-   
      const getterTodos=computed(()=>{
       return store.getters.todoCount
     })
-    const todosCount=ref(getterTodos.value)
     const dialog=ref(false)
     const activeTodosCount=computed(()=>{
-      return store.getters.activeTodos
+      return store.getters['active/activeCount']
     })
     const completedTodosCount=computed(()=>{
-      return store.getters.completedTodos
+      return store.getters['completed/completedCount']
     })
-     const onCheckedActive=async(todos)=>{
+    console.log(activeTodosCount,completedTodosCount,'activer and completed todos count ')
+
+    const onCheckedActive=async(todos)=>{
       try{
          const res=await onCheck(todos)
          if(res.statusText==='OK'){
             store.dispatch('active/removeItem',todos.id)
-
             store.dispatch('completed/changeStatus',{ 
             id:todos.id,
             todo:todos.todo,
@@ -89,9 +90,7 @@ import EditModal from './EditModal.vue'
       try{
          const res=await onCheck(todos)
          if(res.statusText==='OK'){
-          
             store.dispatch('completed/removeItem',todos.id)
-
             store.dispatch('active/changeStatus',{ 
             id:todos.id,
             todo:todos.todo,
@@ -102,8 +101,6 @@ import EditModal from './EditModal.vue'
          console.log(err,'error at change status ')
       }
      }
-    
-
      const deleteTodo=async(id)=>{
       try{
         const res= await deleteTodos(id)
@@ -114,7 +111,19 @@ import EditModal from './EditModal.vue'
          console.log(error,'delete error')
       }
      }
-
+    const deleteTodoActive=async(id)=>{
+     try{
+       const res= await deleteTodos(id)
+  
+       if(res.statusText==="OK"){
+        console.log('ok')
+           store.dispatch('active/removeItem',id)
+       }
+      
+     }catch(error){
+      console.log(error)
+     }
+  }
 
    const closeModal=()=>{
       dialog.value=false
@@ -146,11 +155,10 @@ import EditModal from './EditModal.vue'
         })
         store.dispatch('active/getAllactiveTodos',activeList)
         store.dispatch('completed/getAllCompletedTodos',completedList)
-       
-       
        }
       }catch(err){
          console.log(err,'mounted error')
+
       }
     })
 </script>

@@ -38,7 +38,6 @@
   <div class="flex justify-center ">
       <DatePicker  v-if="isCalender" v-model="date" mode="dateTime"/>
     </div>
-    <p v-if="errors.input" class="flex justify-center text text-red-700  ">Add a todo</p>
     <TodoList/>
     <StatusList/>
 </div>
@@ -51,7 +50,7 @@ const todoInputSchema=Yup.object().shape({
   input:Yup.string().required("Add a todo")
 })
 import { DatePicker } from 'v-calendar';
-import {ref, computed} from 'vue'
+import {ref} from 'vue'
 import StatusList from './StatusList.vue'
 import 'v-calendar/style.css';
 import NavVue from'./NavVue.vue'
@@ -67,19 +66,18 @@ import { addNewTodos } from '../services/todoHelpers';
     const errors=ref({
       input:''
     })
-    const todos=ref([])
+    
   
     const rules = {
-  required: (value) => !!value || 'Field is required',
-};
+      required: (value) => !!value || 'Field is required',
+    };
     const isCalender=ref(false)
+
     const calender=()=>{
       isCalender.value=!isCalender.value      
     }
   
-    const todoList=(data)=>{
-     todos.value=data.value 
-    }
+   
 
     const addTodo=async()=>{
       try{
@@ -93,7 +91,6 @@ import { addNewTodos } from '../services/todoHelpers';
           const res=await addNewTodos(toAddList)
         if(res.statusText==='Created'){
           store.dispatch('active/insertNewTodo',toAddList),
-        
           isCalender.value=false 
           task.value.input=''
           date.value=new Date()

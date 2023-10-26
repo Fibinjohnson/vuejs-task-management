@@ -33,7 +33,8 @@ const activeMutations={
         state.activeTodos=state.activeTodos.filter((todos)=>{
             return todos.id!==payload
         })
-    } 
+    } ,
+    
 
    }
 export default activeMutations

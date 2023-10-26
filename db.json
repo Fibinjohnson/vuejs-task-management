@@ -1,28 +1,22 @@
 {
   "todos": [
     {
-      "id": 1698301873292,
+      "id": 1698310972493,
+      "todo": "wash colthes",
+      "duedate": "26/10/2023, 14:32:09",
+      "isCompleted": true
+    },
+    {
+      "id": 1698311011989,
       "todo": "wash clothes",
-      "duedate": "26/10/2023, 12:01:02",
+      "duedate": "26/10/2023, 14:33:24",
       "isCompleted": false
     },
     {
-      "id": 1698301942704,
+      "id": 1698311025045,
       "todo": "do laundry",
-      "duedate": "27/10/2023, 12:02:19",
+      "duedate": "26/10/2023, 14:33:32",
       "isCompleted": false
-    },
-    {
-      "id": 1698302029643,
-      "todo": "nnn",
-      "duedate": "26/10/2023, 12:03:47",
-      "isCompleted": true
-    },
-    {
-      "id": 1698302036586,
-      "todo": "bbbb",
-      "duedate": "26/10/2023, 12:03:49",
-      "isCompleted": true
     }
   ]
 }

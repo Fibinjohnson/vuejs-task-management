@@ -6,7 +6,7 @@
       width="450"
     >
       <v-card>
-        <form  @submit.prevent="editTodoList(modalValue)"> 
+        <Form  @submit.prevent="editTodoList(modalValue)" :validation-schema="schema"> 
         <v-card-title>
           <span class="text-h5"> Edit Todo</span>
         </v-card-title>
@@ -14,13 +14,13 @@
           <v-container>
             <v-row>
               <v-col
-            
               >
                 <v-text-field
                   label="Edit Todo"
+                  :rules="[rules.required]"
                  v-model="modalValue.todo"
                   persistent-hint
-                  required
+                  
                 ></v-text-field>
               </v-col>
            
@@ -37,14 +37,13 @@
                 cols="12"
                 sm="6"
               >
-              <div class="flex">
+              <div class="flex">               
                 <DatePicker  class="flex justify-center " v-if="isCalender" v-model="modalValue.duedate" mode="dateTime"/>
 
              </div>
               </v-col>
             </v-row>
           </v-container>
-          <small>*indicates required field</small>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -59,11 +58,12 @@
             color="blue-darken-1"
             variant="text"
            type="submit"
+           :disabled="isEmpty"
           >
             Save
           </v-btn>
         </v-card-actions>
-    </form>
+    </Form>
       </v-card>
     </v-dialog>
   </v-row>
@@ -71,11 +71,10 @@
 
 <script setup>
 import {useStore} from 'vuex'
-import {ref,toRefs,watch,defineProps,defineEmits,computed} from 'vue'
+import {ref,toRefs,defineProps,defineEmits,computed} from 'vue'
 import { DatePicker } from 'v-calendar';
 import {editPromise} from "../services/todoHelpers"
 const store=useStore()
-
 
 const props=defineProps({
     dialog:Boolean,
@@ -90,8 +89,23 @@ const calender=()=>{
      isCalender.value= !isCalender.value
      
 }
+
 const toEdit=ref(dialog)
 const modalValue=ref(todos)
+const isEmpty=computed(()=>{
+  if(modalValue.value.todo===''){
+    return true
+  }
+  return false
+})
+const rules = {
+      required: (value) => {
+        if(!value){
+          return 'required'
+        }
+        return true
+      }
+    };
 const editTodoList=async(todos)=>{
     try{
       const res=await editPromise({

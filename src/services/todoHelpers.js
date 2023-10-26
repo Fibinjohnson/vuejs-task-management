@@ -35,9 +35,6 @@ export const getAllTodos=()=>{
     })
 }
 
-
-
-
 export const addNewTodos=async(addedList)=>{
      return new Promise(async(resolve,reject)=>{
         try{
