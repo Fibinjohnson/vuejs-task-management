@@ -109,7 +109,6 @@ import EditModal from './EditModal.vue'
         const res= await deleteTodos(id)
          if(res.statusText==='OK'){
                store.dispatch('completed/deleteTodo',id)
-               store.dispatch('all/deleteFromAll',id)
             }
         }catch(error){
          console.log(error,'delete error')

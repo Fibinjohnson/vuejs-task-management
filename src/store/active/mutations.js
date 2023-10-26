@@ -2,9 +2,7 @@ const activeMutations={
     getAllactiveTodos(state,todos){
       state.activeTodos=todos
     },
-    getAllTodos(state,todos){
-        state.allTodos=todos
-    },
+  
     insertNewTodo(state,todo){
       state.activeTodos.push(todo)
       

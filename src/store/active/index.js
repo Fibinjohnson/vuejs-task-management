@@ -5,6 +5,7 @@ const activeTodos={
     namespaced: true,
     state:{
       activeTodos:[],
+      
     },
   
     getters:activeGetters,

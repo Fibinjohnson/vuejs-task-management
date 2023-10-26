@@ -56,7 +56,7 @@ import StatusList from './StatusList.vue'
 import 'v-calendar/style.css';
 import NavVue from'./NavVue.vue'
 import TodoList from "./TodoList.vue"
-import {useStore,mapState,mapActions} from 'vuex'
+import {useStore} from 'vuex'
 import { addNewTodos } from '../services/todoHelpers';
   
     const store=useStore()
@@ -68,9 +68,7 @@ import { addNewTodos } from '../services/todoHelpers';
       input:''
     })
     const todos=ref([])
-    const storeTodos=computed(()=>
-       store.state.all.allTodos
-    )
+  
     const rules = {
   required: (value) => !!value || 'Field is required',
 };
@@ -86,22 +84,20 @@ import { addNewTodos } from '../services/todoHelpers';
     const addTodo=async()=>{
       try{
         todoInputSchema.validate(task.value,{abortEarly:false}).then(async()=>{
-          let lastid=Math.max(...storeTodos.value.map(todo=>todo.id))
-          if(lastid==-Infinity){
-            lastid=0
-          }
+         const uid=Date.now()
           const toAddList=  {
-          id:lastid+1,
+          id:uid,
           todo:task.value.input,
           duedate:new Date(date.value).toLocaleString(),
           isCompleted:false}
           const res=await addNewTodos(toAddList)
         if(res.statusText==='Created'){
           store.dispatch('active/insertNewTodo',toAddList),
-          store.dispatch('all/addTodo',toAddList)
+        
           isCalender.value=false 
           task.value.input=''
           date.value=new Date()
+          
           }
         }).catch((err)=>{
           console.log(err,  "error")
