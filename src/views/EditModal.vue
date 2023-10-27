@@ -76,8 +76,7 @@ import {useStore} from 'vuex'
 import {ref,toRefs,defineProps,defineEmits,computed,reactive} from 'vue'
 import { DatePicker } from 'v-calendar';
 import {editPromise} from "../services/todoHelpers"
-import {useVuelidate} from '@vuelidate/core'
-import {required} from '@vuelidate/validators'
+
 const store=useStore()
 
 const props=defineProps({
@@ -117,7 +116,7 @@ const rules = {
     };
 const editTodoList=async(todos)=>{
     try{
-      v$.$validate
+      
       const res=await editPromise({
       id:todos.id,
       duedate:new Date(todos.duedate).toLocaleString(),

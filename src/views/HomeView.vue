@@ -9,9 +9,8 @@
   <form  @submit.prevent="addTodo">
     <div class="flex justify-center pt-8">
       <v-text-field
-      :rules="[rules.required]"
-      v-model="task.input" 
-      clearable
+      v-model="todo.value.value"
+      :error-messages="todo.errorMessage.value"
       label="Add todo"
      ></v-text-field>
      <div class="p-x pt-2">
@@ -45,13 +44,7 @@
 
 <script setup>
 import * as Yup from "yup"
-import {useVuelidate} from '@vuelidate/core'
-import {required} from '@vuelidate/validators'
-
-const todoInputSchema=Yup.object().shape({
-  input:Yup.string().required("Add a todo")
-})
-import { reactive} from 'vue'
+import {useField,useForm} from 'vee-validate'
 import { DatePicker } from 'v-calendar';
 import {ref} from 'vue'
 import StatusList from './StatusList.vue'
@@ -60,12 +53,21 @@ import NavVue from'./NavVue.vue'
 import TodoList from "./TodoList.vue"
 import {useStore} from 'vuex'
 import { addNewTodos } from '../services/todoHelpers';
-    const initialState={
-      todo:''
-    }
-    const state=reactive({
-      ...initialState
-    })
+
+const {handleSubmit,handleReset}=useForm({
+validationSchema:{
+  todo(value){
+     if(value?.length >=2 ) return true 
+      return "*required"
+     
+  }
+}
+})
+const todo=useField('todo')
+const todoInputSchema=Yup.object().shape({
+  input:Yup.string().required("Add a todo")
+})
+ 
     const store=useStore()
     const date=ref(new Date())
     const task=ref({
@@ -84,36 +86,36 @@ import { addNewTodos } from '../services/todoHelpers';
     const calender=()=>{
       isCalender.value=!isCalender.value      
     }
-  
-   
 
-    const addTodo=async()=>{
+
+    const addTodo= handleSubmit(async(value)=> {
       try{
-        todoInputSchema.validate(task.value,{abortEarly:false}).then(async()=>{
+        
+        // todoInputSchema.validate(task.value,{abortEarly:false}).then(async()=>{
          const uid=Date.now()
           const toAddList=  {
           id:uid,
-          todo:task.value.input,
+          todo:value.todo,
           duedate:new Date(date.value).toLocaleString(),
           isCompleted:false}
           const res=await addNewTodos(toAddList)
         if(res.statusText==='Created'){
           store.dispatch('active/insertNewTodo',toAddList),
           isCalender.value=false 
-          task.value.input=''
+          handleReset()
           date.value=new Date()
           
           }
-        }).catch((err)=>{
-          console.log(err,  "error")
-          err.inner.forEach((error)=>{
-            errors.value={...errors.value,[error.path]:error.message}
-          })
-        })
+        // }).catch((err)=>{
+        //   console.log(err,  "error")
+        //   err.inner.forEach((error)=>{
+        //     errors.value={...errors.value,[error.path]:error.message}
+        //   })
+        // })
       }catch(err){
          console.log(err,'error occured')
       }
-    }
+    })
     const validate=(field)=>{
        todoInputSchema.validateAt(field,task.value).then(() => (
         errors.value[field]=""
