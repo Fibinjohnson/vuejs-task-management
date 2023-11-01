@@ -8,6 +8,10 @@ npm install
 ### Compiles and hot-reloads for development
 ```
 npm run serve //localhost:3000
+
+
+### starting of json server
+json-server db.json -p 3001
 ```
 
 ### Compiles and minifies for production
@@ -15,9 +19,7 @@ npm run serve //localhost:3000
 npm run build
 ```
 
-### Lints and fixes files
-```
-npm run lint
+
 ```
 
 ### Customize configuration
