@@ -9,9 +9,12 @@ npm install
 ```
 npm run serve //localhost:3000
 
+...
 
 ### starting of json server
+...
 json-server db.json -p 3001
+
 ```
 
 ### Compiles and minifies for production
